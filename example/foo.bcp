@@ -1,0 +1,50 @@
+//
+//	bcpl sample program.
+//
+
+GET "STD.H"
+
+MANIFEST $( FOO = 1, 
+	    BAR = 2,
+         $)
+
+GLOBAL $( FOO:1, BAR:2 $)
+
+STATIC $( foo: 1 $)
+
+
+LET start (argc, argv) BE
+$(
+	LET	val;
+
+	writef ("program name is %s *N", argv ! 0);
+
+	val = atoi (argv ! 1);
+
+	SWITCHON val INTO
+	$(
+	CASE 1: writef ("value is 1*N");
+		CASEEND
+
+	CASE 2: writef ("value is 2*N");
+		CASEEND
+	$)
+
+	$(
+		writef ("val = %d*N", val);
+		val := val - 1;
+	$) REPEATUNTIL val < 0
+
+	writef ("end.*N");
+$)
+
+AND foo () BE
+$(aa
+	LET	val;
+
+	$(bb
+	val := 1 + 1 * 2;
+	writef ("val = %d*N", val);
+
+
+$)aa

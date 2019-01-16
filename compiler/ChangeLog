@@ -1,0 +1,14 @@
+Sun Sep  5 08:48:52 1999  Ryuichi Naitoh  <night@ibmpc0.bfree.rim.or.jp>
+
+	* bcpl.h debug.c lexical.l misc.c parser.y
+	BCPL の特徴のひとつである、タグ付きの区間かっこを使ったときに、区間かっ
+	この省略できる機能をサポートした。
+
+Sat Sep  4 15:50:48 1999  Ryuichi Naitoh  <night@ibmpc0.bfree.rim.or.jp>
+
+	* .cvsignore: bcplc を CVS の管理から対象外にした。
+
+	* parser.y lexical.l
+	  オペレータ & のトークンを TK_AND から TK_ANDOP に変更した。
+	  また、BE という予約語用のトークンを TK_AND として定義した。
+	  procedure の構文定義に AND が来る場合を追加した。

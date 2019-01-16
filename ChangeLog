@@ -1,0 +1,7 @@
+Sat Sep  4 15:51:33 1999  Ryuichi Naitoh  <night@ibmpc0.bfree.rim.or.jp>
+
+	* VERSION: 
+	bcplc を CVS の管理から対象外にした。
+	オペレータ & のトークンを TK_AND から TK_ANDOP に変更した。
+	また、BE という予約語用のトークンを TK_AND として定義した。
+	procedure の構文定義に AND が来る場合を追加した。
