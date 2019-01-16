@@ -99,3 +99,8 @@ extern struct number	*make_number ();
 extern void		debug_print ();
 
 extern int		nlcount;
+
+extern int	        yyparse();
+extern int		yyerror();
+extern int	        yylex();
+extern int		zzlex();
