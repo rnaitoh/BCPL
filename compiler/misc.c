@@ -8,6 +8,49 @@
 
 extern char	*yytext;
 
+
+static char	*tag_stack[MAX_TAG];
+int		tag_stack_top = 0;
+
+
+int
+push_tag (char *tag)	
+{
+  tag_stack[tag_stack_top] = strdup (tag);
+  tag_stack_top++;
+  return (tag_stack_top);
+}
+
+
+int
+pop_tag (char tag[])
+{
+  if (tag_stack_top == 0)
+    {
+      return (-1);
+    }
+
+  strcpy (tag, tag_stack[tag_stack_top - 1]);
+  free (tag_stack[tag_stack_top - 1]);
+  tag_stack_top--;
+  return (tag_stack_top);
+}
+
+int
+check_tag (char *tag)
+{
+  int	i;
+
+  for (i = 0; i < tag_stack_top; i++)
+    {
+      if (strcmp (tag, tag_stack[i]) == 0)
+	{
+	  return (i);
+	}
+    }
+  return (-1);
+}
+
 struct symbol *
 make_symbol (char *sym)
 {
@@ -86,9 +129,6 @@ make_node (int type, void *a, void *b, void *c)
   return (p);
 }
 
-
-static char	*tag_stack[MAX_TAG];
-int		tag_stack_top = 0;
 
 int
 yylex ()
@@ -144,40 +184,3 @@ start:
 }
 
 
-int
-check_tag (char *tag)
-{
-  int	i;
-
-  for (i = 0; i < tag_stack_top; i++)
-    {
-      if (strcmp (tag, tag_stack[i]) == 0)
-	{
-	  return (i);
-	}
-    }
-  return (-1);
-}
-
-int
-push_tag (char *tag)	
-{
-  tag_stack[tag_stack_top] = strdup (tag);
-  tag_stack_top++;
-  return (tag_stack_top);
-}
-
-
-int
-pop_tag (char tag[])
-{
-  if (tag_stack_top == 0)
-    {
-      return (-1);
-    }
-
-  strcpy (tag, tag_stack[tag_stack_top - 1]);
-  free (tag_stack[tag_stack_top - 1]);
-  tag_stack_top--;
-  return (tag_stack_top);
-}
