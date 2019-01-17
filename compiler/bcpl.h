@@ -89,6 +89,7 @@ struct node
 #define OP_CASECONT		35
 #define OP_GET			36
 #define OP_BLOCK		37
+#define OP_UNLESS		38
 
 
 extern struct symbol	*make_symbol ();
