@@ -83,12 +83,15 @@ struct node	*noderoot;
 %type <nodep>statement.list
 %type <nodep>statement
 %type <nodep>call.function
+/* 
 %type <nodep>expression.list
+*/
 %type <nodep>declare.variable.list
 %type <nodep>declare.variable
 %type <nodep>declare.get
 %type <nodep>initialize.list
 %type <nodep>if.head if.statement
+%type <nodep>unless.head unless.statement
 %type <nodep>while.statement
 %type <nodep>declare.static
 %type <nodep>switchon.statement
@@ -178,6 +181,7 @@ statement
 	| TK_RESULTIS TK_LP expression TK_RP TK_SEMICOLON
 						{ $$ = make_node (OP_RETURN, $3, NULL, NULL); }
 	| if.statement				{ $$ = $1; }
+	| unless.statement			{ $$ = $1; }
 	| while.statement			{ $$ = $1; }
 	| switchon.statement			{ $$ = $1; }
 	| TK_BEGIN statement.list TK_END	{ $$ = make_node (OP_BLOCK, $2, NULL, NULL); }
@@ -185,8 +189,10 @@ statement
 
 if.statement
 	: if.head statement			{ $$ = make_node (OP_IF, $1, $2, NULL); }
+/* statement に、TK_BEGIN statement.list TK_ENDが含まれているのでこの定義は不要 
 	| if.head TK_BEGIN statement.list TK_END
 						{ $$ = make_node (OP_IF, $1, $3, NULL); }
+*/
 	;
 
 if.head
@@ -195,8 +201,18 @@ if.head
 
 while.statement
 	: TK_WHILE expression TK_DO statement	{ $$ = make_node (OP_WHILE, $2, $4, NULL); }
+/* statement に、TK_BEGIN statement.list TK_ENDが含まれているのでこの定義は不要 
 	| TK_WHILE expression TK_DO TK_BEGIN statement.list TK_END
 						{ $$ = make_node (OP_WHILE, $2, $5, NULL); }
+*/
+	;
+
+unless.statement
+	: unless.head statement			{ $$ = make_node (OP_UNLESS, $1, $2, NULL); }
+	;
+
+unless.head
+	: TK_UNLESS expression TK_DO		{ $$ = $2; }
 	;
 
 switchon.statement
@@ -231,8 +247,7 @@ initialize.list
 
 
 call.function
-	: TK_SYMBOL TK_LP  TK_RP		{ $$ = make_node (OP_CALL, $1, NULL, NULL); }
-	| TK_SYMBOL TK_LP expression.list TK_RP	{ $$ = make_node (OP_CALL, $1, $3, NULL); }
+	: TK_SYMBOL argument.list		{ $$ = make_node (OP_CALL, $1, $2, NULL); }
 	;
 
 argument.list
@@ -241,15 +256,16 @@ argument.list
 	;
 
 argument
-	: TK_SYMBOL TK_COMMA argument		{ $$ = make_node (OP_ARGS, $1, NULL, $3); }
-	| TK_SYMBOL 				{ $$ = make_node (OP_ARGS, $1, NULL, NULL); }
+	: expression TK_COMMA argument		{ $$ = make_node (OP_ARGS, $1, NULL, $3); }
+	| expression				{ $$ = make_node (OP_ARGS, $1, NULL, NULL); }
 	;
 
+/*
 expression.list
 	: expression TK_COMMA expression.list	{ $$ = make_node (OP_ARGS, $1, NULL, $3); }
-	;
 	| expression 				{ $$ = make_node (OP_ARGS, $1, NULL, NULL); }
 	;
+*/
 
 expression
 	: TK_NUMBER				{ $$ = (struct node *)$1; }
