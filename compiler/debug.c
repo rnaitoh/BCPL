@@ -111,7 +111,7 @@ get_entry (nodep)
 }
 
 
-static
+static int
 print_space (int n)
 {
   int	i;
