@@ -96,6 +96,7 @@ extern struct symbol	*make_symbol ();
 extern struct string	*make_string ();
 extern struct node	*make_node ();
 extern struct number	*make_number ();
+extern int		make_code ();
 
 extern void		debug_print ();
 
