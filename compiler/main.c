@@ -41,12 +41,13 @@ main (int ac, char **av)
   make_code ();
 }
 
-
+int
 yyerror ()
 {
   extern char *yytext;
 
   fprintf (stderr, "line %d: syntax error\n", nlcount);
   fprintf (stderr, "yytext: %s\n", yytext);
+  return (0);
 }
 
